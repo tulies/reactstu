@@ -4,10 +4,17 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import reducers from './reducers';
 import { Provider } from 'react-redux';
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 
-import Dashboard from  './Dashboard';
-import Login from  './Login';
+import Login from './container/login';
+import Register from './container/register';
+import BossInfo from './container/bossinfo';
+import GeniusInfo from './container/geniusinfo';
+
+import Authroute from './component/authroute';
+
+import './index.css'
+
 import './config';
 // 新建store , 传入reducer函数
 const store = createStore(
@@ -17,16 +24,18 @@ const store = createStore(
         window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__() //这个参数 为了redux插件用。
     )
 );
-
 ReactDOM.render(
     <Provider store={store}>
         <BrowserRouter>
-            <Switch>
-                <Route path="/dashboard" component={Dashboard}  />
-                <Route path="/login" component={Login}  />
-                {/*<Route component={Dashboard}/>*/}
-                <Redirect to="/dashboard"></Redirect>
-            </Switch>
+            <div>
+                <Authroute />
+                <Switch>
+                    <Route path="/register" component={Register}  />
+                    <Route path="/login" component={Login}  />
+                    <Route path="/bossinfo" component={BossInfo}  />
+                    <Route path="/geniusinfo" component={GeniusInfo}  />
+                </Switch>
+            </div>
         </BrowserRouter>
     </Provider>
     ,document.getElementById('root')
