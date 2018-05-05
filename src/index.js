@@ -10,9 +10,10 @@ import Login from './container/login';
 import Register from './container/register';
 import BossInfo from './container/bossinfo';
 import GeniusInfo from './container/geniusinfo';
+import Dashboard from './container/dashboard';
+
 
 import Authroute from './component/authroute';
-
 import './index.css'
 
 import './config';
@@ -34,6 +35,7 @@ ReactDOM.render(
                     <Route path="/login" component={Login}  />
                     <Route path="/bossinfo" component={BossInfo}  />
                     <Route path="/geniusinfo" component={GeniusInfo}  />
+                    <Route component={Dashboard}/>
                 </Switch>
             </div>
         </BrowserRouter>

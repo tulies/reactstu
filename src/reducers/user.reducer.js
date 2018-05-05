@@ -4,27 +4,39 @@ import { getRedirectPath } from '../util'
 const AUTH_SUCCESS = 'AUTH_SUCCESS';
 const USER_DATE = 'USER_DATE';
 const ERROR_MSG = 'ERROR_MSG';
+const LOGOUT = 'LOGOUT';
 
 const initState = {
     uname: '',
     upass:'',
     type:'',
     msg:'',
+    hasAuthed:false
 };
 
 // 这就是reducer处理函数，参数是状态和新的action
 export const User = (state=initState, action)=>{
     switch(action.type) {
         case AUTH_SUCCESS:
-            return {...state, msg: '', redirectTo: getRedirectPath(action.payload), ...action.payload};
+            return { ...state, msg: '', redirectTo: getRedirectPath(action.payload), ...action.payload, hasAuthed: true};
 
         case USER_DATE:
-            return {...state, ...action.payload};
+            return { ...state, ...action.payload, hasAuthed: true};
         case ERROR_MSG:
-            return {...state, ...action.payload};
+            return { ...state, ...action.payload, hasAuthed: true};
+        case LOGOUT:
+            return { ...initState, hasAuthed: true };
         default:
             return state;
     }
+};
+
+const errorMsg = (msg)=>{
+    return {type: ERROR_MSG, payload:{msg:msg}};
+};
+export const loadData = (userinfo)=>{
+    console.log(userinfo);
+    return { type:USER_DATE, payload:userinfo };
 };
 
 // 获取用户信息
@@ -42,9 +54,10 @@ export const getUserInfo = ()=>{
         });
     }
 };
-export function loadData(userinfo){
-    console.log(userinfo);
-    return { type:USER_DATE, payload:userinfo}
+
+// 注销
+export const logout = ()=>{
+    return { type:LOGOUT }
 };
 // 登录
 export const login = ({uname, upass})=>{
@@ -101,8 +114,5 @@ export const update = (data)=>{
     }
 };
 
-export const errorMsg = (msg)=>{
-    return {type: ERROR_MSG, payload:{msg:msg}};
-};
 
 

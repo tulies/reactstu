@@ -15,7 +15,9 @@ const models = {
         // 职位名称
         title: { type: String },
         // 公司名
-        company: { type: String}
+        company: { type: String},
+        // mongey
+        money: { type: String }
     }
 };
 

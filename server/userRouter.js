@@ -25,7 +25,7 @@ Router.get('/list', function (req, res) {
     })
 });
 Router.get('/info', function (req, res) {
-    const { userid } = req.cookies
+    const { userid } = req.cookies;
     if (!userid) {
         return res.json({code:-1, msg:'未登录，缺少cookie'})
     }
@@ -114,7 +114,7 @@ module.exports = Router;
 //     }
 // });
 
-// User.remove({},function (err, doc) {
+// User.remove({uname:'boss'},function (err, doc) {
 //     console.log(doc)
 //
 // });
