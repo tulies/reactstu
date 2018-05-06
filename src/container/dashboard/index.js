@@ -10,10 +10,20 @@ import User from '../user';
 import Msg from '../msg';
 import NavLinkBar from '../../component/navlink';
 
+import { recvMsg, getMsgList} from '../../reducers/chat.reducer'
+
+
 @connect(
-    state=>state
+    state=>state,
+    { recvMsg, getMsgList}
 )
 class Dashboard extends React.Component{
+    componentDidMount(){
+        if (!this.props.Chat.chatmsg.length) {
+            this.props.getMsgList();
+            this.props.recvMsg();
+        }
+    }
     render(){
         const {pathname} = this.props.location;
         const user = this.props.User;

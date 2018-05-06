@@ -5,6 +5,8 @@ const model = require('./model');
 
 const Router = express.Router();
 const User = model.getModel('user');
+const Chat = model.getModel('chat');
+
 
 const _filter = {'upass':0,'__v':0}
 
@@ -52,7 +54,6 @@ Router.post('/login', function (req, res) {
 
     })
 });
-
 Router.post('/register', function (req, res) {
     const {uname, upass, type} = req.body;
     if(!uname || !upass || !type){
@@ -74,7 +75,6 @@ Router.post('/register', function (req, res) {
         });
     });
 });
-
 Router.post('/update', function (req, res) {
     const userid = req.cookies.userid;
     if (!userid) {
@@ -91,6 +91,25 @@ Router.post('/update', function (req, res) {
         return res.json({code:0, data});
     })
 });
+
+
+Router.get('/getmsglist',function(req,res){
+    const user = req.cookies.userid;
+    User.find({},function(e,userdoc){
+        let users = {};
+        userdoc.forEach(v=>{
+            users[v._id] = {name:v.uname, avatar:v.avatar}
+        });
+        Chat.find({'$or':[{from:user},{to:user}]},function(err,doc){
+            if (!err) {
+                return res.json({code:0,msgs:doc, users:users})
+            }
+        })
+    })
+    // {'$or':[{from:user,to:user}]}
+
+});
+
 
 function md5Pwd(upass){
     const salt = 'tulies_i_love_you!@#IUHJh~~';

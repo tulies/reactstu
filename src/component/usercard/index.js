@@ -9,13 +9,17 @@ class UserCard extends React.Component{
         userlist: PropTypes.array.isRequired,
     };
 
+    handleClick(v){
+        this.props.history.push(`/chat/${v._id}`);
+    }
+
     render(){
         return (
             <WingBlank size="lg">
                 {this.props.userlist.map(v=>(
                     <div key={v._id}>
                         <WhiteSpace  />
-                        <Card>
+                        <Card onClick={() => this.handleClick(v)}>
                             <Card.Header
                                 title={v.uname}
                                 thumb={require(`../img/${v.avatar}.png`)}
